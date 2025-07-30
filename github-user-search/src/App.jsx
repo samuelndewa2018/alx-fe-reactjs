@@ -1,9 +1,9 @@
 import Search from "./components/Search";
+import "./index.css";
 
 function App() {
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>GitHub User Search</h1>
+    <div className="min-h-screen bg-gray-100">
       <Search />
     </div>
   );
