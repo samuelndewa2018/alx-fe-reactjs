@@ -18,8 +18,8 @@ function Search() {
     try {
       const data = await fetchUserData(username);
       setUserData(data);
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
       setError(true);
     } finally {
       setLoading(false);
@@ -27,22 +27,33 @@ function Search() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div style={{ maxWidth: "500px", margin: "0 auto", textAlign: "center" }}>
+      <form onSubmit={handleSubmit} style={{ marginBottom: "1rem" }}>
         <input
           type="text"
           placeholder="Enter GitHub username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          style={{ padding: "0.5rem", width: "70%" }}
         />
-        <button type="submit">Search</button>
+        <button
+          type="submit"
+          style={{ padding: "0.5rem 1rem", marginLeft: "0.5rem" }}
+        >
+          Search
+        </button>
       </form>
 
       {loading && <p>Loading...</p>}
-      {error && <p>Looks like we can't find the user</p>}
+      {error && <p>Looks like we cant find the user</p>}
       {userData && (
         <div style={{ marginTop: "1rem" }}>
-          <img src={userData.avatar_url} alt={userData.login} width="100" />
+          <img
+            src={userData.avatar_url}
+            alt={userData.login}
+            width="100"
+            style={{ borderRadius: "50%" }}
+          />
           <h3>{userData.name || userData.login}</h3>
           <a href={userData.html_url} target="_blank" rel="noopener noreferrer">
             View Profile
