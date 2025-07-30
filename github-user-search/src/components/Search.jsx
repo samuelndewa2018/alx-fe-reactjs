@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { searchUsers } from "../services/githubService";
+import { fetchUserData, searchUsers } from "../services/githubService";
 
 function Search() {
   const [username, setUsername] = useState("");
@@ -16,8 +16,13 @@ function Search() {
     setResults([]);
 
     try {
-      const users = await searchUsers({ username, location, minRepos });
-      setResults(users);
+      if (username && !location && !minRepos) {
+        const user = await fetchUserData(username);
+        setResults([user]);
+      } else {
+        const users = await searchUsers({ username, location, minRepos });
+        setResults(users);
+      }
     } catch (err) {
       console.error(err);
       setError(true);
@@ -77,7 +82,7 @@ function Search() {
       <div className="grid gap-4 mt-6">
         {results.map((user) => (
           <div
-            key={user.id}
+            key={user.id || user.login}
             className="bg-white p-4 shadow-md rounded flex items-center space-x-4"
           >
             <img
@@ -86,7 +91,9 @@ function Search() {
               className="w-16 h-16 rounded-full"
             />
             <div>
-              <h3 className="font-semibold text-lg">{user.login}</h3>
+              <h3 className="font-semibold text-lg">
+                {user.name || user.login}
+              </h3>
               <a
                 href={user.html_url}
                 target="_blank"
@@ -95,6 +102,9 @@ function Search() {
               >
                 View Profile
               </a>
+              {user.location && (
+                <p className="text-sm text-gray-500">📍 {user.location}</p>
+              )}
             </div>
           </div>
         ))}
