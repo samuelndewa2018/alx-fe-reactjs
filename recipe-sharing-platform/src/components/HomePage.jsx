@@ -13,6 +13,13 @@ function HomePage() {
 
   return (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <Link
+        to="/add"
+        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition inline-block mb-6"
+      >
+        ➕ Add New Recipe
+      </Link>
+
       {recipes.map((recipe) => (
         <div
           key={recipe.id}
